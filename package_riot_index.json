@@ -1,0 +1,328 @@
+{
+    "packages": [
+        {
+            "name": "riot",
+            "maintainer": "RIOT network",
+            "websiteURL": "http://www.riot.network",
+            "email": "info@riot.network",
+            "help": {
+                "online": "http://www.riot.network"
+            },
+            "platforms": [
+                {
+                "name": "RIOT Lora boards",
+                "architecture": "samr",
+                "version": "1.0.9",
+                "category": "RIOT",
+                "url": "https://github.com/riotnetwork/samr/archive/1.0.9.tar.gz",
+                "archiveFileName": "samr-1.0.9.tar.gz",
+                "checksum": "SHA-256:386204225d099a83a775edfa057ca74d2fcb4d1eb54976223db72a85554a2967",
+                "size": "4723652",
+                "boards": [
+                  {"name": "RIOT R34 LoRa stamp"}
+                ],
+                "toolsDependencies": [
+                  {
+                    "name": "arm-none-eabi-gcc",
+                    "packager": "arduino",
+                    "version": "7-2017q4"
+                  },
+                  {
+                    "name": "bossac",
+                    "packager": "riot",
+                    "version": "1.9.1-riot"
+                  },
+                  {
+                    "name": "bossac",
+                    "packager": "riot",
+                    "version": "1.7.0-riot"
+                  },
+                  {
+                    "name": "openocd",
+                    "packager": "arduino",
+                    "version": "0.9.0-arduino"
+                  },
+                  {
+                    "name": "CMSIS",
+                    "packager": "riot",
+                    "version": "5.6.0"
+                  },
+                  {
+                    "name": "CMSIS-Atmel",
+                    "packager": "riot",
+                    "version": "1.0.1"
+                  }
+                ]
+              },
+                 {
+                "name": "RIOT Lora boards",
+                "architecture": "samr",
+                "version": "1.0.10",
+                "category": "RIOT",
+                "url": "https://github.com/riotnetwork/samr/archive/1.0.10.tar.gz",
+                "archiveFileName": "samr-1.0.10.tar.gz",
+                "checksum": "SHA-256:e9ca1f99c9b15efff7398ba2f91aa493434dc5ffe2c4d13612e0575b59e3e350",
+                "size": "4732111",
+                "boards": [
+                  {"name": "RIOT R34 LoRa stamp"}
+                ],
+                "toolsDependencies": [
+                  {
+                    "name": "arm-none-eabi-gcc",
+                    "packager": "arduino",
+                    "version": "7-2017q4"
+                  },
+                  {
+                    "name": "bossac",
+                    "packager": "riot",
+                    "version": "1.9.1-riot"
+                  },
+                  {
+                    "name": "bossac",
+                    "packager": "riot",
+                    "version": "1.7.0-riot"
+                  },
+                  {
+                    "name": "openocd",
+                    "packager": "arduino",
+                    "version": "0.9.0-arduino"
+                  },
+                  {
+                    "name": "CMSIS",
+                    "packager": "riot",
+                    "version": "5.6.0"
+                  },
+                  {
+                    "name": "CMSIS-Atmel",
+                    "packager": "riot",
+                    "version": "1.0.1"
+                  }
+                ]
+              }  
+            ],
+            "tools": [
+            {
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4",
+              "systems":[ 
+                {
+                  "host": "i686-mingw32",
+                  "url": "http://downloads.arduino.cc/tools/gcc-arm-none-eabi-7-2017-q4-major-win32-arduino1.zip",
+                  "archiveFileName": "gcc-arm-none-eabi-7-2017-q4-major-win32-arduino1.zip",
+                  "checksum": "SHA-256:96dd0091856f4d2eb21046eba571321feecf7d50b9c156f708b2a8b683903382",
+                  "size": "131761924"
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "http://downloads.arduino.cc/tools/gcc-arm-none-eabi-7-2017-q4-major-mac.tar.bz2",
+                  "archiveFileName": "gcc-arm-none-eabi-7-2017-q4-major-mac.tar.bz2",
+                  "checksum": "SHA-256:89b776c7cf0591c810b5b60067e4dc113b5b71bc50084a536e71b894a97fdccb",
+                  "size": "104550003"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "http://downloads.arduino.cc/tools/gcc-arm-none-eabi-7-2017-q4-major-linux64.tar.bz2",
+                  "archiveFileName": "gcc-arm-none-eabi-7-2017-q4-major-linux64.tar.bz2",
+                  "checksum": "SHA-256:96a029e2ae130a1210eaa69e309ea40463028eab18ba19c1086e4c2dafe69a6a",
+                  "size": "99857645"
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "http://downloads.arduino.cc/tools/gcc-arm-none-eabi-7-2018-q2-update-linux32.tar.bz2",
+                  "archiveFileName": "gcc-arm-none-eabi-7-2018-q2-update-linux32.tar.bz2",
+                  "checksum": "SHA-256:090a0bc2b1956bc49392dff924a6c30fa57c88130097b1972204d67a45ce3cf3",
+                  "size": "97427309"
+                }
+              ]
+            },
+            {
+              "name": "bossac",
+              "version": "1.9.1-riot",
+              "systems": [
+                 {
+                  "host": "i686-mingw32",
+                  "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.9.1-riot-i686-w64-mingw32.tar.gz",
+                  "archiveFileName": "bossac-1.9.1-riot-i686-w64-mingw32.tar.gz",
+                  "checksum": "SHA-256:ab381d7d884b565975da93d0ee3276340b612d27e5f171968c1489166a12686d",
+                  "size": "125509"
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.9.1-riot-osx.tar.gz",
+                  "archiveFileName": "bossac-1.9.1-riot-osx.tar.gz",
+                  "checksum": "SHA-256:cc0f2bc296db5de933110c6941d2cb8bf07c171b90dc296764dd403bb2e6c51d",
+                  "size": "227714"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.9.1-riot-linux64.tar.gz",
+                  "archiveFileName": "bossac-1.9.1-riot-linux64.tar.gz",
+                  "checksum": "SHA-256:184bee070791ff0059478f0d50bffacf2fd90c0e81b237485d882e0511622039",
+                  "size": "44464 "
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.9.1-riot-linux32.tar.gz",
+                  "archiveFileName": "bossac-1.9.1-riot-linux32.tar.gz",
+                  "checksum": "SHA-256:90982911a3f6fe13e9ee7feaf310be6a8fc7da7171c9fef0763b11f5b4e80e59",
+                  "size": "47204"
+                }
+              ]
+            },
+            {
+              "name": "bossac",
+              "version": "1.7.0-riot",
+              "systems": [
+                 {
+                "host": "i686-mingw32",
+                "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.7.0-riot/bossac-1.7.0-riot-i686-w64-mingw32.tar.gz",
+                "archiveFileName": "bossac-1.7.0-riot-i686-w64-mingw32.tar.gz",
+                "checksum": "SHA-256:7ea15cdacdce37733d047a3ef5aa5ff6dac5fa54743a8e391881c0fd502eb8f5",
+                "size": "355952"
+              },
+              {
+                "host": "x86_64-pc-linux-gnu",
+                "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.7.0-riot/bossac-1.7.0-riot-linux64.tar.gz",
+                "archiveFileName": "bossac-1.7.0-riot-linux64.tar.gz",
+                "checksum": "SHA-256:b9e093696d53083b91a320a6d19425165991ca07c80b4ec8aa27c442cd0550f2",
+                "size": "34787"
+              },
+              {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.7.0-riot-linux32.tar.gz",
+              "archiveFileName": "bossac-1.7.0-riot-linux32.tar.gz",
+              "checksum": "SHA-256:2ec3b0092e97dcc968fae25bae49d567fe495728f6e938bc25e6a163f11f6ad9",
+              "size": "37125"
+              },
+              {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.7.0-riot/bossac-1.7.0-riot-osx.tar.gz",
+              "archiveFileName": "bossac-1.7.0-riot-osx.tar.gz",
+              "checksum": "SHA-256:30fd957aaea89e7645f3d9f70567784eb164e2cfc2ef2e27471eedf568620350",
+              "size": "60755"
+               }
+             ]
+            },
+            {
+              "name": "openocd",
+              "version": "0.9.0-arduino5-static",
+              "systems": [
+                {
+                  "host": "i686-mingw32",
+                  "url": "http://downloads.arduino.cc/tools/openocd-0.9.0-arduino5-static-i686-w64-mingw32.zip",
+                  "archiveFileName": "openocd-0.9.0-arduino5-static-i686-w64-mingw32.zip",
+                  "checksum": "SHA-256:54c70a0bfa1b0a3a592d6ee9ab532f9715e1dede2e7d46a3232abd72de274c5a",
+                  "size": "1641209"
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "http://downloads.arduino.cc/tools/openocd-0.9.0-arduino5-static-x86_64-apple-darwin15.6.0.tar.bz2",
+                  "archiveFileName": "openocd-0.9.0-arduino5-static-x86_64-apple-darwin15.6.0.tar.bz2",
+                  "checksum": "SHA-256:14be5c5400e1a32c3d6a15f9c8d2f438634974ab263ff437b91b527e5b5d53a4",
+                  "size": "1235752"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "http://downloads.arduino.cc/tools/openocd-0.9.0-arduino5-static-x86_64-linux-gnu.tar.bz2",
+                  "archiveFileName": "openocd-0.9.0-arduino5-static-x86_64-linux-gnu.tar.bz2",
+                  "checksum": "SHA-256:8e378bdcd71c93a39818c16b49b91128c8028e3d9675551ba7eff39462391ba2",
+                  "size": "1393855"
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "http://downloads.arduino.cc/tools/openocd-0.9.0-arduino5-static-i686-linux-gnu.tar.bz2",
+                  "archiveFileName": "openocd-0.9.0-arduino5-static-i686-linux-gnu.tar.bz2",
+                  "checksum": "SHA-256:8e0787f54e204fe6e9071b2b7edf8a5e695492696f1182d447647fe5c0bd55bd",
+                  "size": "1341739"
+                }
+              ]
+            },
+            
+            {
+              "name": "CMSIS",
+              "version": "5.6.0",
+              "systems":
+              [
+                {
+                  "host": "i686-mingw32",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546 "
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546"
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546"
+                },
+                {
+                  "host": "all",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546"
+                }
+              ]
+            },
+            {
+              "name": "CMSIS-Atmel",
+              "version": "1.0.1",
+              "systems":
+              [
+                {
+                  "host": "i686-mingw32",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430654"
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430654"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430654"
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430654"
+                },
+                {
+                  "host": "all",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430654"
+                }
+              ]
+            }
+            ]
+        }
+    ]
+}
