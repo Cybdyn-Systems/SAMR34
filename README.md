@@ -7,7 +7,7 @@ This core is an arduino port for the Microchip ATSAMR34 Series microcontrollers 
 
 Board definition for Arduino IDE to install packages :
 
-JSON URL : https://raw.githubusercontent.com/riotnetwork/samr-json/master/package_riot_index.json
+JSON URL : https://raw.githubusercontent.com/Cybdyn-Systems/SAMR34/master/package_riot_index.json
 
 * Open your Arduino IDE (V1.6.4 or newer.)
 * In Arduino, Click File and then Preferences
