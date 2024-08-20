@@ -290,35 +290,35 @@
                   "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
                   "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
                   "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
-                  "size": "430654"
+                  "size": "430600"
                 },
                 {
                   "host": "x86_64-apple-darwin",
                   "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
                   "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
                   "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
-                  "size": "430654"
+                  "size": "430600"
                 },
                 {
                   "host": "x86_64-pc-linux-gnu",
                   "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
                   "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
                   "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
-                  "size": "430654"
+                  "size": "430600"
                 },
                 {
                   "host": "i686-pc-linux-gnu",
                   "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
                   "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
                   "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
-                  "size": "430654"
+                  "size": "430600"
                 },
                 {
                   "host": "all",
                   "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
                   "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
                   "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
-                  "size": "430654"
+                  "size": "430600"
                 }
               ]
             }
