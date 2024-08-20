@@ -1,249 +1,328 @@
-# Copyright (c) 2014-2015 Arduino LLC.  All right reserved.
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-# RIOT SAMR Core and platform.
-#
-# For more info:
-# https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification
-
-name=RIOT SAMR (32-bits ARM Cortex-M0+) Boards
-version=1.0.10
-
-# Compile variables
-# -----------------
-
-compiler.warning_flags=-w
-compiler.warning_flags.none=-w
-compiler.warning_flags.default=
-compiler.warning_flags.more=-Wall -Wno-expansion-to-defined
-compiler.warning_flags.all=-Wall -Wextra -Wno-expansion-to-defined
-# EXPERIMENTAL feature: optimization flags
-#  - this is alpha and may be subject to change without notice
-compiler.optimization_flags=-Os
-compiler.optimization_flags.release=-Os
-compiler.optimization_flags.debug=-Og -g3
-
-compiler.path={runtime.tools.arm-none-eabi-gcc-7-2017q4.path}/bin/
-compiler.c.cmd=arm-none-eabi-gcc
-compiler.c.flags=-mcpu={build.mcu} -mthumb -c -g {compiler.optimization_flags} {compiler.warning_flags} -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD
-compiler.c.elf.cmd=arm-none-eabi-g++
-compiler.c.elf.flags={compiler.optimization_flags} -Wl,--gc-sections -save-temps
-compiler.S.cmd=arm-none-eabi-gcc
-compiler.S.flags=-c -g -x assembler-with-cpp -MMD
-compiler.cpp.cmd=arm-none-eabi-g++
-compiler.cpp.flags=-mcpu={build.mcu} -mthumb -c -g {compiler.optimization_flags} {compiler.warning_flags} -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD
-compiler.ar.cmd=arm-none-eabi-ar
-compiler.ar.flags=rcs
-compiler.objcopy.cmd=arm-none-eabi-objcopy
-compiler.objcopy.eep.flags=-O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0
-compiler.elf2hex.bin.flags=-O binary
-compiler.elf2hex.hex.flags=-O ihex -R .eeprom
-compiler.elf2hex.cmd=arm-none-eabi-objcopy
-compiler.ldflags=-mcpu={build.mcu} -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align
-compiler.size.cmd=arm-none-eabi-size
-compiler.define=-DARDUINO=
-compiler.readelf.cmd=arm-none-eabi-readelf
-
-# this can be overriden in boards.txt
-build.extra_flags=
-
-# These can be overridden in platform.local.txt
-compiler.c.extra_flags=
-compiler.c.elf.extra_flags=
-#compiler.c.elf.extra_flags=-v
-compiler.cpp.extra_flags=
-compiler.S.extra_flags=
-compiler.ar.extra_flags=
-compiler.elf2hex.extra_flags=
-
-#compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS-5.6.0.path}/CMSIS/Core/Include/" "-I{runtime.tools.CMSIS-Atmel-1.0.1.path}/CMSIS/Device/ATMEL/"
-#compiler.arm.cmsis.ldflags="-L{runtime.tools.CMSIS-5.6.0.path}/CMSIS/DSP/Lib/GCC/"  -larm_cortexM0l_math
-
-
-#compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS-4.5.0.path}/CMSIS/Include/" "-I{runtime.tools.CMSIS-Atmel-1.2.0.path}/CMSIS/Device/ATMEL/"
-#compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS-4.5.0.path}/CMSIS/Include/" "-I{runtime.tools.WLR089_DFP-1.0.3.path}/include/"
-compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS-4.5.0.path}/CMSIS/Include/" "-I{runtime.tools.SAMR34_DFP-1.0.11.path}/include/"
-compiler.arm.cmsis.ldflags="-L{runtime.tools.CMSIS-4.5.0.path}/CMSIS/Lib/GCC/" -larm_cortexM0l_math
-
-
-compiler.libraries.ldflags=
-
-# USB Flags
-# ---------
-build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} -DUSBCON '-DUSB_MANUFACTURER={build.usb_manufacturer}' '-DUSB_PRODUCT={build.usb_product}'
-
-# Default usb manufacturer will be replaced at compile time using
-# numeric vendor ID if available or by board's specific value.
-build.usb_manufacturer="Unknown"
-
-# Compile patterns
-# ----------------
-
-## Compile c files
-recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {compiler.arm.cmsis.c.flags} "-I{build.core.path}/api/deprecated" "-I{build.core.path}/api/deprecated-avr-comp" {includes} "{source_file}" -o "{object_file}"
-
-## Compile c++ files
-recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {compiler.arm.cmsis.c.flags} "-I{build.core.path}/api/deprecated" "-I{build.core.path}/api/deprecated-avr-comp" {includes} "{source_file}" -o "{object_file}"
-
-## Compile S files
-recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {compiler.arm.cmsis.c.flags} "-I{build.core.path}/api/deprecated" "-I{build.core.path}/api/deprecated-avr-comp" {includes} "{source_file}" -o "{object_file}"
-
-## Create archives
-# archive_file_path is needed for backwards compatibility with IDE 1.6.5 or older, IDE 1.6.6 or newer overrides this value
-archive_file_path={build.path}/{archive_file}
-recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
-
-## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}"  "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-T{build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" --specs=nano.specs --specs=nosys.specs {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} {compiler.libraries.ldflags} -Wl,--start-group {compiler.arm.cmsis.ldflags} -lm "{build.path}/{archive_file}" -Wl,--end-group
-
-## Create output (bin file)
-recipe.objcopy.bin.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.bin.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
-
-## Create output (hex file)
-recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.hex"
-
-build.preferred_out_format=bin
-
-## Save hex
-recipe.output.tmp_file={build.project_name}.{build.preferred_out_format}
-recipe.output.save_file={build.project_name}.{build.variant}.{build.preferred_out_format}
-
-## Compute size
-recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
-recipe.size.regex=^(?:\.text|\.data|)\s+([0-9]+).*
-recipe.size.regex.data=^(?:\.data|\.bss)\s+([0-9]+).*
-
-
-# Debugger configuration (general options)
-# ----------------------------------------
-# EXPERIMENTAL feature:
-#  - this is alpha and may be subject to change without notice
-debug.executable={build.path}/{build.project_name}.elf
-debug.toolchain=gcc
-debug.toolchain.path={runtime.tools.arm-none-eabi-gcc-7-2017q4.path}/bin/
-debug.toolchain.prefix=arm-none-eabi-
-debug.server=openocd
-debug.server.openocd.path={runtime.tools.openocd-0.10.0-arduino7.path}/bin/openocd
-debug.server.openocd.scripts_dir={runtime.tools.openocd-0.10.0-arduino7.path}/share/openocd/scripts/
-debug.server.openocd.script={runtime.platform.path}/variants/{build.variant}/{build.openocdscript}
-
-# Upload/Debug tools
-# ------------------
-
-#
-# AVRDUDE
-#
-tools.avrdude.path={runtime.tools.avrdude.path}
-tools.avrdude.cmd={path}/bin/avrdude
-tools.avrdude.config.path={path}/etc/avrdude.conf
-
-tools.avrdude.upload.params.verbose=-v -v
-tools.avrdude.upload.params.quiet=-q -q
-tools.avrdude.upload.params.noverify=-V
-tools.avrdude.upload.pattern="{cmd}" "-C{config.path}" {upload.verbose} -p{build.emu.mcu} -c{upload.protocol} -P{serial.port} -b{upload.speed} "-Uflash:w:{build.path}/{build.project_name}.hex:i"
-
-tools.avrdude_remote.upload.pattern="openocd --version 2>&1 | grep 2016 && if opkg update; then opkg upgrade openocd; exit 1; else echo 'Please connect your board to the Internet in order to upgrade tools' >&2; exit 1; fi || /usr/bin/run-avrdude /tmp/sketch.hex"
-
-tools.avrdude.network_cmd={runtime.tools.arduinoOTA.path}/bin/arduinoOTA
-tools.avrdude.upload.network_pattern="{network_cmd}" -address {serial.port} -port 65280 -username arduino -password "{network.password}" -sketch "{build.path}/{build.project_name}.bin" -upload /sketch -b
-
-#
-# BOSSA
-#
-tools.bossac.path={runtime.tools.bossac-1.7.0-riot.path}
-tools.bossac.cmd=bossac
-tools.bossac.cmd.windows=bossac.exe
-
-tools.bossac.upload.params.verbose=-i -d
-tools.bossac.upload.params.quiet=
-tools.bossac.upload.pattern="{path}/{cmd}" {upload.verbose} --port={serial.port.file} -U {upload.native_usb} -i -e -w -v "{build.path}/{build.project_name}.bin" -R
-
-tools.bossac_remote.upload.pattern=/usr/bin/run-bossac {upload.verbose} --port=ttyATH0 -U {upload.native_usb} -e -w -v /tmp/sketch.bin -R
-
-tools.bossac.network_cmd={runtime.tools.arduinoOTA.path}/bin/arduinoOTA
-tools.bossac.upload.network_pattern="{network_cmd}" -address {serial.port} -port 65280 -username arduino -password "{network.password}" -sketch "{build.path}/{build.project_name}.bin" -upload /sketch -b
-
-#
-# BOSSA (ignore binary size)
-#
-tools.bossacI.path={runtime.tools.bossac-1.7.0-riot.path}
-tools.bossacI.cmd=bossac
-tools.bossacI.cmd.windows=bossac.exe
-
-tools.bossacI.upload.params.verbose=-i -d
-tools.bossacI.upload.params.quiet=
-tools.bossacI.upload.pattern="{path}/{cmd}" {upload.verbose} --port={serial.port.file} -I -U {upload.native_usb} -i -e -w "{build.path}/{build.project_name}.bin" -R
-
-tools.bossacI_remote.upload.pattern=/usr/bin/run-bossac {upload.verbose} --port=ttyATH0 -U {upload.native_usb} -e -w -v /tmp/sketch.bin -R
-
-tools.bossacI.network_cmd={runtime.tools.arduinoOTA.path}/bin/arduinoOTA
-tools.bossacI.upload.network_pattern="{network_cmd}" -address {serial.port} -port 65280 -username arduino -password "{network.password}" -sketch "{build.path}/{build.project_name}.bin" -upload /sketch -b
-
-
-#
-# OpenOCD sketch upload
-#
-
-tools.openocd.path={runtime.tools.openocd-0.10.0-arduino7.path}
-tools.openocd.cmd=bin/openocd
-tools.openocd.cmd.windows=bin/openocd.exe
-
-tools.openocd.upload.params.verbose=-d2
-tools.openocd.upload.params.quiet=-d0
-tools.openocd.upload.pattern="{path}/{cmd}" {upload.verbose} -s "{path}/share/openocd/scripts/" -f "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "telnet_port disabled; program {{build.path}/{build.project_name}.bin} verify reset 0x2000; shutdown"
-
-tools.openocd.network_cmd={runtime.tools.arduinoOTA.path}/bin/arduinoOTA
-tools.openocd.upload.network_pattern={network_cmd} -address {serial.port} -port 65280 -username arduino -password "{network.password}" -sketch "{build.path}/{build.project_name}.bin" -upload /sketch -b
-
-# Program flashes the binary at 0x0000, so use the linker script without_bootloader
-tools.openocd.program.params.verbose=-d2
-tools.openocd.program.params.quiet=-d0
-tools.openocd.program.pattern="{path}/{cmd}" {program.verbose} -s "{path}/share/openocd/scripts/" -f "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "telnet_port disabled; program {{build.path}/{build.project_name}.hex} verify reset; shutdown"
-
-tools.openocd.erase.params.verbose=-d3
-tools.openocd.erase.params.quiet=-d0
-tools.openocd.erase.pattern=
-
-tools.openocd.bootloader.params.verbose=-d2
-tools.openocd.bootloader.params.quiet=-d0
-tools.openocd.bootloader.pattern="{path}/{cmd}" {bootloader.verbose} -s "{path}/share/openocd/scripts/" -f "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "telnet_port disabled; init; halt; at91samd bootloader 0; program {{runtime.platform.path}/bootloaders/{bootloader.file}} verify reset; shutdown"
-
-#
-# OpenOCD sketch upload - version with configurable bootloader size
-# FIXME: this programmer is a workaround for default options being overwritten by uploadUsingPreferences
-#
-
-tools.openocd-withbootsize.path={runtime.tools.openocd-0.10.0-arduino7.path}
-tools.openocd-withbootsize.cmd=bin/openocd
-tools.openocd-withbootsize.cmd.windows=bin/openocd.exe
-
-tools.openocd-withbootsize.upload.params.verbose=-d2
-tools.openocd-withbootsize.upload.params.quiet=-d0
-tools.openocd-withbootsize.upload.pattern="{path}/{cmd}" {upload.verbose} -s "{path}/share/openocd/scripts/" -f "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "telnet_port disabled; program {{build.path}/{build.project_name}.bin} verify reset {bootloader.size}; shutdown"
-
-# Program flashes the binary at 0x0000, so use the linker script without_bootloader
-tools.openocd-withbootsize.program.params.verbose=-d2
-tools.openocd-withbootsize.program.params.quiet=-d0
-tools.openocd-withbootsize.program.pattern="{path}/{cmd}" {program.verbose} -s "{path}/share/openocd/scripts/" -f "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "telnet_port disabled; program {{build.path}/{build.project_name}.elf} verify reset; shutdown"
-
-tools.openocd-withbootsize.erase.params.verbose=-d3
-tools.openocd-withbootsize.erase.params.quiet=-d0
-tools.openocd-withbootsize.erase.pattern=
-
-tools.openocd-withbootsize.bootloader.params.verbose=-d2
-tools.openocd-withbootsize.bootloader.params.quiet=-d0
-tools.openocd-withbootsize.bootloader.pattern="{path}/{cmd}" {bootloader.verbose} -s "{path}/share/openocd/scripts/" -f "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "telnet_port disabled; init; halt; at91samd bootloader 0; program {{runtime.platform.path}/bootloaders/{bootloader.file}} verify reset; shutdown"
-
+{
+    "packages": [
+        {
+            "name": "riot",
+            "maintainer": "RIOT network",
+            "websiteURL": "http://www.riot.network",
+            "email": "info@riot.network",
+            "help": {
+                "online": "http://www.riot.network"
+            },
+            "platforms": [
+                {
+                "name": "RIOT Lora boards",
+                "architecture": "samr",
+                "version": "1.0.9",
+                "category": "RIOT",
+                "url": "https://github.com/riotnetwork/samr/archive/1.0.9.tar.gz",
+                "archiveFileName": "samr-1.0.9.tar.gz",
+                "checksum": "SHA-256:386204225d099a83a775edfa057ca74d2fcb4d1eb54976223db72a85554a2967",
+                "size": "4723652",
+                "boards": [
+                  {"name": "RIOT R34 LoRa stamp"}
+                ],
+                "toolsDependencies": [
+                  {
+                    "name": "arm-none-eabi-gcc",
+                    "packager": "arduino",
+                    "version": "7-2017q4"
+                  },
+                  {
+                    "name": "bossac",
+                    "packager": "riot",
+                    "version": "1.9.1-riot"
+                  },
+                  {
+                    "name": "bossac",
+                    "packager": "riot",
+                    "version": "1.7.0-riot"
+                  },
+                  {
+                    "name": "openocd",
+                    "packager": "arduino",
+                    "version": "0.9.0-arduino"
+                  },
+                  {
+                    "name": "CMSIS",
+                    "packager": "riot",
+                    "version": "5.6.0"
+                  },
+                  {
+                    "name": "CMSIS-Atmel",
+                    "packager": "riot",
+                    "version": "1.0.1"
+                  }
+                ]
+              },
+                 {
+                "name": "RIOT Lora boards",
+                "architecture": "samr",
+                "version": "1.0.10",
+                "category": "RIOT",
+                "url": "https://github.com/riotnetwork/samr/archive/1.0.10.tar.gz",
+                "archiveFileName": "samr-1.0.10.tar.gz",
+                "checksum": "SHA-256:e9ca1f99c9b15efff7398ba2f91aa493434dc5ffe2c4d13612e0575b59e3e350",
+                "size": "4732111",
+                "boards": [
+                  {"name": "RIOT R34 LoRa stamp"}
+                ],
+                "toolsDependencies": [
+                  {
+                    "name": "arm-none-eabi-gcc",
+                    "packager": "arduino",
+                    "version": "7-2017q4"
+                  },
+                  {
+                    "name": "bossac",
+                    "packager": "riot",
+                    "version": "1.9.1-riot"
+                  },
+                  {
+                    "name": "bossac",
+                    "packager": "riot",
+                    "version": "1.7.0-riot"
+                  },
+                  {
+                    "name": "openocd",
+                    "packager": "arduino",
+                    "version": "0.9.0-arduino"
+                  },
+                  {
+                    "name": "CMSIS",
+                    "packager": "riot",
+                    "version": "5.6.0"
+                  },
+                  {
+                    "name": "CMSIS-Atmel",
+                    "packager": "riot",
+                    "version": "1.0.1"
+                  }
+                ]
+              }  
+            ],
+            "tools": [
+            {
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4",
+              "systems":[ 
+                {
+                  "host": "i686-mingw32",
+                  "url": "http://downloads.arduino.cc/tools/gcc-arm-none-eabi-7-2017-q4-major-win32-arduino1.zip",
+                  "archiveFileName": "gcc-arm-none-eabi-7-2017-q4-major-win32-arduino1.zip",
+                  "checksum": "SHA-256:96dd0091856f4d2eb21046eba571321feecf7d50b9c156f708b2a8b683903382",
+                  "size": "131761924"
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "http://downloads.arduino.cc/tools/gcc-arm-none-eabi-7-2017-q4-major-mac.tar.bz2",
+                  "archiveFileName": "gcc-arm-none-eabi-7-2017-q4-major-mac.tar.bz2",
+                  "checksum": "SHA-256:89b776c7cf0591c810b5b60067e4dc113b5b71bc50084a536e71b894a97fdccb",
+                  "size": "104550003"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "http://downloads.arduino.cc/tools/gcc-arm-none-eabi-7-2017-q4-major-linux64.tar.bz2",
+                  "archiveFileName": "gcc-arm-none-eabi-7-2017-q4-major-linux64.tar.bz2",
+                  "checksum": "SHA-256:96a029e2ae130a1210eaa69e309ea40463028eab18ba19c1086e4c2dafe69a6a",
+                  "size": "99857645"
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "http://downloads.arduino.cc/tools/gcc-arm-none-eabi-7-2018-q2-update-linux32.tar.bz2",
+                  "archiveFileName": "gcc-arm-none-eabi-7-2018-q2-update-linux32.tar.bz2",
+                  "checksum": "SHA-256:090a0bc2b1956bc49392dff924a6c30fa57c88130097b1972204d67a45ce3cf3",
+                  "size": "97427309"
+                }
+              ]
+            },
+            {
+              "name": "bossac",
+              "version": "1.9.1-riot",
+              "systems": [
+                 {
+                  "host": "i686-mingw32",
+                  "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.9.1-riot-i686-w64-mingw32.tar.gz",
+                  "archiveFileName": "bossac-1.9.1-riot-i686-w64-mingw32.tar.gz",
+                  "checksum": "SHA-256:ab381d7d884b565975da93d0ee3276340b612d27e5f171968c1489166a12686d",
+                  "size": "125509"
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.9.1-riot-osx.tar.gz",
+                  "archiveFileName": "bossac-1.9.1-riot-osx.tar.gz",
+                  "checksum": "SHA-256:cc0f2bc296db5de933110c6941d2cb8bf07c171b90dc296764dd403bb2e6c51d",
+                  "size": "227714"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.9.1-riot-linux64.tar.gz",
+                  "archiveFileName": "bossac-1.9.1-riot-linux64.tar.gz",
+                  "checksum": "SHA-256:184bee070791ff0059478f0d50bffacf2fd90c0e81b237485d882e0511622039",
+                  "size": "44464 "
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.9.1-riot-linux32.tar.gz",
+                  "archiveFileName": "bossac-1.9.1-riot-linux32.tar.gz",
+                  "checksum": "SHA-256:90982911a3f6fe13e9ee7feaf310be6a8fc7da7171c9fef0763b11f5b4e80e59",
+                  "size": "47204"
+                }
+              ]
+            },
+            {
+              "name": "bossac",
+              "version": "1.7.0-riot",
+              "systems": [
+                 {
+                "host": "i686-mingw32",
+                "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.7.0-riot/bossac-1.7.0-riot-i686-w64-mingw32.tar.gz",
+                "archiveFileName": "bossac-1.7.0-riot-i686-w64-mingw32.tar.gz",
+                "checksum": "SHA-256:7ea15cdacdce37733d047a3ef5aa5ff6dac5fa54743a8e391881c0fd502eb8f5",
+                "size": "355952"
+              },
+              {
+                "host": "x86_64-pc-linux-gnu",
+                "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.7.0-riot/bossac-1.7.0-riot-linux64.tar.gz",
+                "archiveFileName": "bossac-1.7.0-riot-linux64.tar.gz",
+                "checksum": "SHA-256:b9e093696d53083b91a320a6d19425165991ca07c80b4ec8aa27c442cd0550f2",
+                "size": "34787"
+              },
+              {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.9.1-riot/bossac-1.7.0-riot-linux32.tar.gz",
+              "archiveFileName": "bossac-1.7.0-riot-linux32.tar.gz",
+              "checksum": "SHA-256:2ec3b0092e97dcc968fae25bae49d567fe495728f6e938bc25e6a163f11f6ad9",
+              "size": "37125"
+              },
+              {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/riotnetwork/BOSSA/releases/download/1.7.0-riot/bossac-1.7.0-riot-osx.tar.gz",
+              "archiveFileName": "bossac-1.7.0-riot-osx.tar.gz",
+              "checksum": "SHA-256:30fd957aaea89e7645f3d9f70567784eb164e2cfc2ef2e27471eedf568620350",
+              "size": "60755"
+               }
+             ]
+            },
+            {
+              "name": "openocd",
+              "version": "0.9.0-arduino5-static",
+              "systems": [
+                {
+                  "host": "i686-mingw32",
+                  "url": "http://downloads.arduino.cc/tools/openocd-0.9.0-arduino5-static-i686-w64-mingw32.zip",
+                  "archiveFileName": "openocd-0.9.0-arduino5-static-i686-w64-mingw32.zip",
+                  "checksum": "SHA-256:54c70a0bfa1b0a3a592d6ee9ab532f9715e1dede2e7d46a3232abd72de274c5a",
+                  "size": "1641209"
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "http://downloads.arduino.cc/tools/openocd-0.9.0-arduino5-static-x86_64-apple-darwin15.6.0.tar.bz2",
+                  "archiveFileName": "openocd-0.9.0-arduino5-static-x86_64-apple-darwin15.6.0.tar.bz2",
+                  "checksum": "SHA-256:14be5c5400e1a32c3d6a15f9c8d2f438634974ab263ff437b91b527e5b5d53a4",
+                  "size": "1235752"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "http://downloads.arduino.cc/tools/openocd-0.9.0-arduino5-static-x86_64-linux-gnu.tar.bz2",
+                  "archiveFileName": "openocd-0.9.0-arduino5-static-x86_64-linux-gnu.tar.bz2",
+                  "checksum": "SHA-256:8e378bdcd71c93a39818c16b49b91128c8028e3d9675551ba7eff39462391ba2",
+                  "size": "1393855"
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "http://downloads.arduino.cc/tools/openocd-0.9.0-arduino5-static-i686-linux-gnu.tar.bz2",
+                  "archiveFileName": "openocd-0.9.0-arduino5-static-i686-linux-gnu.tar.bz2",
+                  "checksum": "SHA-256:8e0787f54e204fe6e9071b2b7edf8a5e695492696f1182d447647fe5c0bd55bd",
+                  "size": "1341739"
+                }
+              ]
+            },
+            
+            {
+              "name": "CMSIS",
+              "version": "5.6.0",
+              "systems":
+              [
+                {
+                  "host": "i686-mingw32",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546 "
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546"
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546"
+                },
+                {
+                  "host": "all",
+                  "url": "https://github.com/riotnetwork/CMSIS_5/archive/5.6.0.tar.gz",
+                  "archiveFileName": "CMSIS_5-5.6.0.tar.gz",
+                  "checksum": "SHA-256:8f9cd07a751c193ecef0ce3f4606c9981bf9c46599fab623c7553be9efde2709",
+                  "size": "71824546"
+                }
+              ]
+            },
+            {
+              "name": "CMSIS-Atmel",
+              "version": "1.0.1",
+              "systems":
+              [
+                {
+                  "host": "i686-mingw32",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430600"
+                },
+                {
+                  "host": "x86_64-apple-darwin",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430600"
+                },
+                {
+                  "host": "x86_64-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430600"
+                },
+                {
+                  "host": "i686-pc-linux-gnu",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430600"
+                },
+                {
+                  "host": "all",
+                  "url": "https://github.com/riotnetwork/CMSIS-Atmel/archive/1.0.1.tar.gz",
+                  "archiveFileName": "CMSIS-Atmel-1.0.1.tar.gz",
+                  "checksum": "SHA-256:9ddc12b3f00c57f0c0dbb11dcd3e4307f80194322578a883a832ee08f81a2d11",
+                  "size": "430600"
+                }
+              ]
+            }
+            ]
+        }
+    ]
+}
