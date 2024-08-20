@@ -16,33 +16,34 @@
 
 # Riot R34 stamp (Programming Port)
 # ---------------------------------------
-#riot_r34_edbg.name=Riot R34 stamp (Programming Port)
-#riot_r34_edbg.upload.tool=openocd
-#riot_r34_edbg.upload.protocol=sam-ba
-#riot_r34_edbg.upload.maximum_size=253952
-#riot_r34_edbg.upload.use_1200bps_touch=false
-#riot_r34_edbg.upload.wait_for_upload_port=false
-#riot_r34_edbg.upload.native_usb=false
-#riot_r34_edbg.build.mcu=cortex-m0plus
-#riot_r34_edbg.build.f_cpu=48000000L
-#riot_r34_edbg.build.usb_product="RIOT R34 Stamp"
-#riot_r34_edbg.build.usb_manufacturer="RIOT Network"
-#riot_r34_edbg.build.board=SAMR_34
-#riot_r34_edbg.build.core=arduino
-#riot_r34_edbg.build.extra_flags=-D__SAMR34J18B__ {build.usb_flags}
-#riot_r34_edbg.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
-#riot_r34_edbg.build.openocdscript=openocd_scripts/riot_r34.cfg
-#riot_r34_edbg.build.variant=riot_r34
-#riot_r34_edbg.build.variant_system_lib=
-#riot_r34_edbg.build.vid=0x04D8
-#riot_r34_edbg.build.pid=0xEC22
-#riot_r34_edbg.bootloader.tool=openocd
-#riot_r34_edbg.bootloader.file=r34/samr34.bin
+riot_r34_edbg.name=Riot R34 stamp (Programming Port)
+riot_r34_edbg.upload.tool=openocd
+riot_r34_edbg.upload.protocol=sam-ba
+riot_r34_edbg.upload.maximum_size=253952
+riot_r34_edbg.upload.use_1200bps_touch=false
+riot_r34_edbg.upload.wait_for_upload_port=false
+riot_r34_edbg.upload.native_usb=false
+riot_r34_edbg.build.mcu=cortex-m0plus
+riot_r34_edbg.build.f_cpu=48000000L
+riot_r34_edbg.build.usb_product="RIOT R34 Stamp"
+riot_r34_edbg.build.usb_manufacturer="RIOT Network"
+riot_r34_edbg.build.board=SAMR_34
+riot_r34_edbg.build.core=arduino
+riot_r34_edbg.build.extra_flags=-D__SAMR34J18B__ {build.usb_flags}
+riot_r34_edbg.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+riot_r34_edbg.build.openocdscript=openocd_scripts/riot_r34.cfg
+riot_r34_edbg.build.variant=riot_r34
+#riot_r34_edbg.build.variant=microchip_WLR089U0
+riot_r34_edbg.build.variant_system_lib=
+riot_r34_edbg.build.vid=0x04D8
+riot_r34_edbg.build.pid=0xEC22
+riot_r34_edbg.bootloader.tool=openocd
+riot_r34_edbg.bootloader.file=r34/samr34.bin
 
 
-# Riot R34 stamp (Native USB Port)
+# WLR089 (based on `Riot R34` stamp + Native USB Port)
 # --------------------------------------
-riot_r34_native.name=Riot R34 stamp (Native USB Port)
+riot_r34_native.name=WLR089 stamp (Native USB Port)
 riot_r34_native.vid=0x04D8
 riot_r34_native.pid=0xEC22
 riot_r34_native.vid.build.usb_product="Riot R34"
@@ -60,10 +61,16 @@ riot_r34_native.build.usb_product="Riot R34 Stamp"
 riot_r34_native.build.usb_manufacturer="Riot Network"
 riot_r34_native.build.board=RIOT_R34
 riot_r34_native.build.core=arduino
+
 riot_r34_native.build.extra_flags=-D__SAMR34J18B__ {build.usb_flags}
-riot_r34_native.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+#riot_r34_native.build.extra_flags=-D__WLR089U0__ {build.usb_flags}
+
+#riot_r34_native.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+riot_r34_native.build.ldscript=linker_scripts/gcc/flash_without_bootloader.ld
+
 riot_r34_native.build.openocdscript=openocd_scripts/riot_r34.cfg
-riot_r34_native.build.variant=riot_r34
+#riot_r34_native.build.variant=riot_r34
+riot_r34_native.build.variant=microchip_WLR089U0
 riot_r34_native.build.variant_system_lib=
 riot_r34_native.build.vid=0x04D8
 riot_r34_native.build.pid=0xEC22

@@ -236,7 +236,9 @@ unsigned int PINCOUNT_fn();
 #define SERIAL_PORT_HARDWARE_OPEN   Serial1
 
 // Legacy way to describe serial port on pins 0-1
-#define Serial SerialUSB
+//#define Serial SerialUSB
+#define Serial Serial1
+
 
 #endif /* _VARIANT_ARDUINO_R34_MCP */
 
